@@ -34,7 +34,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-apple-ios,aarch64-apple-ios-sim
-          
+
       - 名字: Build patched AirliftFFI
         run: bash scripts/build-airlift-xcframework.sh
 
@@ -66,7 +66,7 @@ jobs:
       - 名字: Verify archived Airlift integration
         run: bash scripts/verify-airlift.sh "$RUNNER_TEMP/airbeep.xcarchive/Products/Applications/airbeep.app" "$VERSION"
 
-      - name: Package unsigned IPA
+      - 名字: Package unsigned IPA
         run: |
           mkdir -p "$RUNNER_TEMP/Payload"
           cp -R \
@@ -75,18 +75,18 @@ jobs:
           cd "$RUNNER_TEMP"
           zip -qry "airbeep-v${VERSION}-unsigned.ipa" Payload
 
-      - name: Upload unsigned IPA artifact
+      - 名字: Upload unsigned IPA artifact
         uses: actions/upload-artifact@v4
         with:
-          name: airbeep-v${{ env.VERSION }}-unsigned
+          名字: airbeep-v${{ env.VERSION }}-unsigned
           path: ${{ runner.temp }}/airbeep-v${{ env.VERSION }}-unsigned.ipa
 
-      - name: Publish GitHub release
+      - 名字: Publish GitHub release
         if: github.ref_type == 'tag' || github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[release]')
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ env.VERSION }}
-          name: AirBeep v${{ env.VERSION }}
+          名字: AirBeep v${{ env.VERSION }}
           target_commitish: ${{ github.sha }}
           generate_release_notes: true
           fail_on_unmatched_files: true
